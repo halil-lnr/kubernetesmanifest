@@ -14,10 +14,7 @@ node {
                         //def encodedPassword = URLEncoder.encode("$GIT_PASSWORD",'UTF-8')
                         bat "git config user.email halil.karimis@lexisnexisrisk.com"
                         bat "git config user.name HalilKarimis"
-                        //sh "git switch master"
-                        bat "cat deployment.yaml"
-                        bat "sed -i 's+halilkarimis/jenkins-argocd.*+halilkarimis/jenkins-argocd:${DOCKERTAG}+g' deployment.yaml"
-                        bat "cat deployment.yaml"
+                        bat "powershell -Command "(gc deployment.yaml) -replace 'halilkarimis/jenkins-argocd', 'halilkarimis/jenkins-argocd:${DOCKERTAG}' | sc deployment.yaml""
                         bat "git add ."
                         bat "git commit -m 'Done by Jenkins Job changemanifest: ${env.BUILD_NUMBER}'"
                         bat "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/kubernetesmanifest.git HEAD:main"
